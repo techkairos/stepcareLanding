@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StepCare - Preventive Health</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="error-log" style="color: red; position: fixed; bottom: 0; left: 0; z-index: 9999; background: white; padding: 10px; display: none; max-height: 200px; overflow: auto;"></div>
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        var el = document.getElementById('error-log');
+        el.style.display = 'block';
+        el.innerHTML += '<p>' + msg + ' (' + line + ':' + col + ')</p>';
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        var el = document.getElementById('error-log');
+        el.style.display = 'block';
+        el.innerHTML += '<p>Rejection: ' + event.reason + '</p>';
+      });
+    </script>
+    <script type="module" src="src/main.tsx"></script>
+  </body>
+</html>
+
