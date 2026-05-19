@@ -1,22 +1,23 @@
-import { defineConfig } from 'vite'
-import path from 'path'
-import tailwindcss from '@tailwindcss/vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import path from 'path';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-  plugins: [
-    // The React and Tailwind plugins are both required for Make, even if
-    // Tailwind is not being actively used – do not remove them
-    react(),
-    tailwindcss(),
-  ],
+export default defineConfig(({ command }) => ({
+  // Set base path based on the environment (development or production)
+  base: command === "serve" ? "/" : "/landing/",  // Base path
+
+  plugins: [react(), tailwindcss()],  // Vite plugins
+
   resolve: {
     alias: {
-      // Alias @ to the src directory
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src'),  // Alias for 'src' directory
     },
   },
 
-  // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
-  assetsInclude: ['**/*.svg', '**/*.csv'],
-})
+  build: {
+    outDir: 'build',  // Output folder for production build
+  },
+
+  assetsInclude: ['**/*.svg', '**/*.csv'],  // Assets to include in build
+}));
